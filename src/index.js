@@ -47,6 +47,7 @@ exports.run = async (browser, pageUrl) => {
     secretAccessKey: AWS_SECRET_ACCESS_KEY,
     region: REGION,
   });
+  console.log(config);
 
   const s3 = new aws.S3({apiVersion: '2006-03-01'});
   const fs = require('fs');
