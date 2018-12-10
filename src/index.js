@@ -1,7 +1,7 @@
 const setup = require('./starter-kit/setup');
 const exec = require('child_process').exec;
-const config = require('./config.json');
-const baseUrl = 'https://s3-ap-northeast-1.amazonaws.com/moriokalab-assets/';
+const {upload} = require('./s3');
+// const baseUrl = 'https://s3-ap-northeast-1.amazonaws.com/sshot-assets/';
 
 exports.handler = async (event, context, callback) => {
   const pageUrl = event['queryStringParameters']['url'];
@@ -39,31 +39,8 @@ exports.run = async (browser, pageUrl) => {
   const imagePath = `/tmp/${imageName}`;
   await page.screenshot({path: imagePath, fullPage: true});
 
-  const aws = require('aws-sdk');
-  /*eslint-disable */
-  const {AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, REGION, BUCKET_NAME} = config;
-  /*eslint-enable */
-
-  aws.config.update({
-    accessKeyId: AWS_ACCESS_KEY_ID,
-    secretAccessKey: AWS_SECRET_ACCESS_KEY,
-    region: REGION,
-  });
-
-  const s3 = new aws.S3({apiVersion: '2006-03-01'});
-  const fs = require('fs');
-  const screenshot = await new Promise((resolve, reject) => {
-    fs.readFile(imagePath, (err, data) => {
-      if (err) return reject(err);
-      resolve(data);
-    });
-  });
-  await s3.putObject({
-    Bucket: BUCKET_NAME,
-    Key: `${randomString}.png`,
-    Body: screenshot,
-  }).promise();
-
+  // TODO: Check if it successes
+  const result = await upload(imageName, imagePath);
   await page.close();
-  return `${baseUrl}${imageName}`;
+  return result;
 };
