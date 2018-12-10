@@ -1,7 +1,7 @@
 {
-  "name": "shot-api",
+  "name": "sshot-api",
   "version": "0.0.1",
-  "description": "shot api on lambda",
+  "description": "sshot api on lambda",
   "scripts": {
     "package": "npm run package-prepare && cp chrome/headless_shell.tar.gz dist && cp -rf .fonts dist && cp fonts.conf dist && cd dist && zip -rq ../package.zip .",
     "package-nochrome": "npm run package-prepare && cd dist && zip -rq ../package.zip .",
