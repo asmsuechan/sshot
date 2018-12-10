@@ -1,6 +1,6 @@
 const setup = require('./starter-kit/setup');
 const exec = require('child_process').exec;
-const confit = require('./config.json');
+const config = require('./config.json');
 const baseUrl = 'https://s3-ap-northeast-1.amazonaws.com/moriokalab-assets/';
 
 exports.handler = async (event, context, callback) => {
@@ -32,13 +32,15 @@ exports.run = async (browser, pageUrl) => {
   /*eslint-enable */
   await page.goto(pageUrl, {waitUntil: 'networkidle0'});
 
+  /*eslint-disable */
   const randomString = `${Math.random().toString(36).slice(-8)}${Math.random().toString(36).slice(-8)}`;
-  const imageName = `${randomString}.png`
+  /*eslint-enable */
+  const imageName = `${randomString}.png`;
   const imagePath = `/tmp/${imageName}`;
   await page.screenshot({path: imagePath, fullPage: true});
 
   const aws = require('aws-sdk');
-  const { AWS_ACCESS_KEY, AWS_SECRET_ACCESS_KEY, REGION, BUCKET_NAME } = config;
+  const {AWS_ACCESS_KEY, AWS_SECRET_ACCESS_KEY, REGION, BUCKET_NAME} = config;
 
   aws.config.update({
     accessKeyId: AWS_ACCESS_KEY,

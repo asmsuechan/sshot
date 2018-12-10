@@ -5,7 +5,8 @@ install:
   - npm install -g serverless
   - yarn
 script:
-- "./deploy.sh"
+  - yarn run lint
+  - "./deploy.sh"
 env:
   global:
   - secure: qCviqPv8E8y1sbRrxQAjET+DAAzaWyMEHOeSit2EWHUnB0NnPZFD5YC61az87DOcawn1TggAaYfDUw4+LEZ0mVYtQDwnuqirws+6xxO7oLSYsM0ZmXUiq1JimaQJBhdaXrjYj5CJlVSQOCpFHnGxM64xeBKGwlLpwC09OkPcPTIqSkaekpVrahkZjJWn4BrYkJaLcMIGO5AiAf15F9VyS40SU9VESQSFPSu4e37oxgCU/Ste5H8if9ORA+5QmSMASNyo5x3tcV0AirgNeNpHlGHhZtynFdoAUvMas8UqjByU5aTITmkF5+/51rFSe1zeY5MQHIEnmR6H/+Ge/9rihmuKcXc6NkWfL4h6abCoN5sw1+ArpsxtXcakExLIqM6UGOYx4V3xDdnOd9cAP+pMWM0lNv/GLRMu267NWPoSRrS93wk/078YqG466WWSRPHhKIocnw4IEvqBBiDxp5wsSoEkzTHY2WRS0++7V5zBVa8zU9WWOK8rFtiQKb8fM8QwalTjN3qBftBzazoGzpoHRe2xMP7VpkC0k1Thb0rse2CY+z++jQE4b03QOTAdz+erM1MG55D7r/iR11ecV8Y14cNz5EZSp4Pk75CyJ0y9RJaPhBfdalmtJNTaV/ZdZ6gCKMdq3kl//uDN71zfMapojYMzGnoatMga/XRGgQnOATY=
