@@ -1,6 +1,6 @@
 {
-  "AWS_ACCESS_KEY": "ryouta",
+  "AWS_ACCESS_KEY": "aws-access-key",
   "AWS_SECRET_ACCESS_KEY": "aws-secret-access-key",
-  "REGION": "ap-northeast-1",
-  "BUCKET_NAME": "bucket-name"
+  "REGION": "region",
+  "BUCKET_NAME": "sshot-assets"
 }

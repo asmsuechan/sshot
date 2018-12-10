@@ -31,10 +31,10 @@ exports.run = async (browser, pageUrl) => {
   // await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36');
   /*eslint-enable */
   await page.goto(pageUrl, {waitUntil: 'networkidle0'});
-  console.log((await page.content()).slice(0, 5000));
 
   const randomString = `${Math.random().toString(36).slice(-8)}${Math.random().toString(36).slice(-8)}`;
-  const imagePath = `/tmp/${randomString}.png`;
+  const imageName = `${randomString}.png`
+  const imagePath = `/tmp/${imageName}`;
   await page.screenshot({path: imagePath, fullPage: true});
 
   const aws = require('aws-sdk');
@@ -61,5 +61,5 @@ exports.run = async (browser, pageUrl) => {
   }).promise();
 
   await page.close();
-  return `${baseUrl}${randomString}.png`;
+  return `${baseUrl}${imageName}`;
 };
