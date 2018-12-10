@@ -1,5 +1,5 @@
 {
-  "AWS_ACCESS_KEY_ID": "aws-access-key",
+  "AWS_ACCESS_KEY_ID": "aws-access-key-id",
   "AWS_SECRET_ACCESS_KEY": "aws-secret-access-key",
   "REGION": "region",
   "BUCKET_NAME": "sshot-assets"

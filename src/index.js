@@ -40,10 +40,8 @@ exports.run = async (browser, pageUrl) => {
   await page.screenshot({path: imagePath, fullPage: true});
 
   const aws = require('aws-sdk');
-  const {REGION, BUCKET_NAME} = config;
   /*eslint-disable */
-  const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID || config.AWS_ACCESS_KEY_ID;
-  const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY || config.AWS_SECRET_ACCESS_KEY;
+  const {AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, REGION, BUCKET_NAME} = config;
   /*eslint-enable */
 
   aws.config.update({
