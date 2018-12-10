@@ -41,8 +41,10 @@ exports.run = async (browser, pageUrl) => {
 
   const aws = require('aws-sdk');
   const {REGION, BUCKET_NAME} = config;
-  const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID || config.AWS_ACCESS_KEY_ID
-  const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY || config.AWS_SECRET_ACCESS_KEY
+  /*eslint-disable */
+  const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID || config.AWS_ACCESS_KEY_ID;
+  const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY || config.AWS_SECRET_ACCESS_KEY;
+  /*eslint-enable */
 
   aws.config.update({
     accessKeyId: AWS_ACCESS_KEY_ID,
