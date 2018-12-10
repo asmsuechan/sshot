@@ -3,6 +3,7 @@ node_js:
 - '6'
 install:
   - npm install -g serverless
+  - yarn
 script:
 - "./deploy.sh"
 env:
