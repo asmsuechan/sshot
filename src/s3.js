@@ -27,23 +27,6 @@ exports.upload = async (imageName) => {
   return result;
 };
 
-exports.getBase64Image= async (imageName) => {
-  const aws = require('aws-sdk');
-
-  aws.config.update({
-    accessKeyId: AWS_ACCESS_KEY_ID,
-    secretAccessKey: AWS_SECRET_ACCESS_KEY,
-    region: REGION,
-  });
-
-  const s3 = new aws.S3({apiVersion: '2006-03-01'});
-  const result = await s3.getObject({
-    Bucket: BUCKET_NAME,
-    Key: imageName,
-  }).promise();
-  return result.Body.toString('base64');
-};
-
 exports.buildUrl = async (imageName) => {
   return `https://s3-${REGION}.amazonaws.com/${BUCKET_NAME}/${imageName}`;
 };

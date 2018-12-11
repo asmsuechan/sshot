@@ -1,6 +1,6 @@
 const setup = require('./starter-kit/setup');
 const exec = require('child_process').exec;
-const {upload, buildUrl, getBase64Image} = require('./s3');
+const {upload, buildUrl} = require('./s3');
 
 exports.handler = async (event, context, callback) => {
   const pageUrl = event['queryStringParameters']['url'];
@@ -8,13 +8,21 @@ exports.handler = async (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
   const browser = await setup.getBrowser();
   try {
-    const imageName = await exports.takeScreenShot(browser, pageUrl);
+    /*eslint-disable */
+    const randomString = `${Math.random().toString(36).slice(-8)}${Math.random().toString(36).slice(-8)}`;
+    /*eslint-enable */
+    const imageName = `${randomString}.png`;
+    /*eslint-disable */
+    const screenshotString = await exports.takeScreenShot({browser: browser, pageUrl: pageUrl, imageName: imageName});
+    /*eslint-enable */
+
     let screenshot;
     if (base64 === 'true') {
-      await upload(imageName);
-      screenshot = await getBase64Image(imageName);
+      screenshot = {base64: screenshotString};
     } else {
-      screenshot = await buildUrl(imageName);
+      await upload(imageName);
+      const url = await buildUrl(imageName);
+      screenshot = {url: url};
     }
     const responseParams = {
       'statusCode': 200,
@@ -26,20 +34,16 @@ exports.handler = async (event, context, callback) => {
   }
 };
 
-exports.takeScreenShot = async (browser, pageUrl) => {
+exports.takeScreenShot = async (params) => {
+  const {pageUrl, browser, imageName} = params;
   process.env.HOME = process.env.LAMBDA_TASK_ROOT;
   const command = `fc-cache -v ${process.env.HOME}.fonts`;
   exec(command, (error, stdout, stderr) => {});
   const page = await browser.newPage();
   await page.goto(pageUrl, {waitUntil: 'networkidle0'});
 
-  /*eslint-disable */
-  const randomString = `${Math.random().toString(36).slice(-8)}${Math.random().toString(36).slice(-8)}`;
-  /*eslint-enable */
-  const imageName = `${randomString}.png`;
   const imagePath = `/tmp/${imageName}`;
-  await page.screenshot({path: imagePath, fullPage: true});
-
+  const screenshot = await page.screenshot({path: imagePath, fullPage: true});
   await page.close();
-  return imageName;
+  return screenshot;
 };
