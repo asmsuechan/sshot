@@ -13,12 +13,12 @@ exports.handler = async (event, context, callback) => {
     /*eslint-enable */
     const imageName = `${randomString}.png`;
     /*eslint-disable */
-    const screenshotString = await exports.takeScreenShot({browser: browser, pageUrl: pageUrl, imageName: imageName});
+    const screenshotData = await exports.takeScreenShot({browser: browser, pageUrl: pageUrl, imageName: imageName});
     /*eslint-enable */
 
     let screenshot;
     if (base64 === 'true') {
-      screenshot = {base64: screenshotString};
+      screenshot = {base64: screenshotData.toString('base64')};
     } else {
       await upload(imageName);
       const url = await buildUrl(imageName);
