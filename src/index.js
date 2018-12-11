@@ -6,14 +6,13 @@ const {upload, buildUrl, getBase64Image} = require('./s3');
 exports.handler = async (event, context, callback) => {
   const pageUrl = event['queryStringParameters']['url'];
   const base64 = event['queryStringParameters']['base64'];
-  console.log(event['queryStringParameters']);
   // For keeping the browser launch
   context.callbackWaitsForEmptyEventLoop = false;
   const browser = await setup.getBrowser();
   try {
     const imageName = await exports.takeScreenShot(browser, pageUrl);
     let screenshot;
-    if (base64) {
+    if (base64 === 'true') {
       await upload(imageName);
       screenshot = await getBase64Image(imageName);
     } else {
