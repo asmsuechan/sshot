@@ -27,7 +27,7 @@ exports.upload = async (imageName, imagePath) => {
   return result;
 };
 
-exports.getUrl = async () => {
+exports.getUrl = async (imageName) => {
   const aws = require('aws-sdk');
   const config = require('./config.json');
   /*eslint-disable */
