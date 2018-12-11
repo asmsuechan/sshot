@@ -1,12 +1,10 @@
 const setup = require('./starter-kit/setup');
 const exec = require('child_process').exec;
 const {upload, buildUrl, getBase64Image} = require('./s3');
-// const baseUrl = 'https://s3-ap-northeast-1.amazonaws.com/sshot-assets/';
 
 exports.handler = async (event, context, callback) => {
   const pageUrl = event['queryStringParameters']['url'];
   const base64 = event['queryStringParameters']['base64'];
-  // For keeping the browser launch
   context.callbackWaitsForEmptyEventLoop = false;
   const browser = await setup.getBrowser();
   try {

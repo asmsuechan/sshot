@@ -1,10 +1,9 @@
+const config = require('./config.json');
+const {AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, REGION, BUCKET_NAME} = config;
+
 exports.upload = async (imageName) => {
   const imagePath = `/tmp/${imageName}`;
   const aws = require('aws-sdk');
-  const config = require('./config.json');
-  /*eslint-disable */
-  const {AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, REGION, BUCKET_NAME} = config;
-  /*eslint-enable */
 
   aws.config.update({
     accessKeyId: AWS_ACCESS_KEY_ID,
@@ -30,10 +29,6 @@ exports.upload = async (imageName) => {
 
 exports.getBase64Image= async (imageName) => {
   const aws = require('aws-sdk');
-  const config = require('./config.json');
-  /*eslint-disable */
-  const {AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, REGION, BUCKET_NAME} = config;
-  /*eslint-enable */
 
   aws.config.update({
     accessKeyId: AWS_ACCESS_KEY_ID,
@@ -50,7 +45,5 @@ exports.getBase64Image= async (imageName) => {
 };
 
 exports.buildUrl = async (imageName) => {
-  const config = require('./config.json');
-  const {REGION, BUCKET_NAME} = config;
   return `https://s3-${REGION}.amazonaws.com/${BUCKET_NAME}/${imageName}`;
 };
