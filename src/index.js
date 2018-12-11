@@ -40,7 +40,8 @@ exports.run = async (browser, pageUrl) => {
   await page.screenshot({path: imagePath, fullPage: true});
 
   // TODO: Check if it successes
-  const result = await upload(imageName, imagePath);
+  await upload(imageName, imagePath);
+  const imageUrl = await getUrl(imageName);
   await page.close();
-  return result;
+  return imageUrl;
 };
