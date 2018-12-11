@@ -1,6 +1,6 @@
 const setup = require('./starter-kit/setup');
 const exec = require('child_process').exec;
-const {upload, buildUrl} = require('./s3');
+const {upload, getUrl} = require('./s3');
 // const baseUrl = 'https://s3-ap-northeast-1.amazonaws.com/sshot-assets/';
 
 exports.handler = async (event, context, callback) => {
@@ -41,7 +41,10 @@ exports.run = async (browser, pageUrl) => {
 
   // TODO: Check if it successes
   await upload(imageName, imagePath);
-  const imageUrl = await buildUrl(imageName);
+  const hoge = await getUrl(imageName);
+  console.log(hoge);
+  console.log(hoge.Body.toString('base64'));
+  // const imageUrl = await buildUrl(imageName);
   await page.close();
-  return imageUrl;
+  return hoge.Body.toString('base64');
 };
