@@ -1,4 +1,5 @@
-exports.upload = async (imageName, imagePath) => {
+exports.upload = async (imageName) => {
+  const imagePath = `/tmp/${imageName}`;
   const aws = require('aws-sdk');
   const config = require('./config.json');
   /*eslint-disable */
@@ -27,7 +28,7 @@ exports.upload = async (imageName, imagePath) => {
   return result;
 };
 
-exports.getUrl = async (imageName) => {
+exports.getBase64Image= async (imageName) => {
   const aws = require('aws-sdk');
   const config = require('./config.json');
   /*eslint-disable */
@@ -45,7 +46,7 @@ exports.getUrl = async (imageName) => {
     Bucket: BUCKET_NAME,
     Key: imageName,
   }).promise();
-  return result;
+  return result.Body.toString('base64');
 };
 
 exports.buildUrl = async (imageName) => {

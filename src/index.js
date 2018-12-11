@@ -1,35 +1,39 @@
 const setup = require('./starter-kit/setup');
 const exec = require('child_process').exec;
-const {upload, getUrl} = require('./s3');
+const {upload, buildUrl, getBase64Image} = require('./s3');
 // const baseUrl = 'https://s3-ap-northeast-1.amazonaws.com/sshot-assets/';
 
 exports.handler = async (event, context, callback) => {
   const pageUrl = event['queryStringParameters']['url'];
+  const base64 = event['queryStringParameters']['base64'];
+  console.log(event['queryStringParameters']);
   // For keeping the browser launch
   context.callbackWaitsForEmptyEventLoop = false;
   const browser = await setup.getBrowser();
   try {
-    const url = await exports.run(browser, pageUrl);
-    const screenshot = {screenshot: {url: url}};
-    callback(null, {
+    const imageName = await exports.takeScreenShot(browser, pageUrl);
+    let screenshot;
+    if (base64) {
+      await upload(imageName);
+      screenshot = await getBase64Image(imageName);
+    } else {
+      screenshot = await buildUrl(imageName);
+    }
+    const responseParams = {
       'statusCode': 200,
-      'body': JSON.stringify((screenshot)),
-    });
+      'body': JSON.stringify(({screenshot: screenshot})),
+    };
+    callback(null, responseParams);
   } catch (e) {
     callback(e);
   }
 };
 
-exports.run = async (browser, pageUrl) => {
+exports.takeScreenShot = async (browser, pageUrl) => {
   process.env.HOME = process.env.LAMBDA_TASK_ROOT;
   const command = `fc-cache -v ${process.env.HOME}.fonts`;
   exec(command, (error, stdout, stderr) => {});
-  // implement here
-  // this is sample
   const page = await browser.newPage();
-  /*eslint-disable */
-  // await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36');
-  /*eslint-enable */
   await page.goto(pageUrl, {waitUntil: 'networkidle0'});
 
   /*eslint-disable */
@@ -39,12 +43,6 @@ exports.run = async (browser, pageUrl) => {
   const imagePath = `/tmp/${imageName}`;
   await page.screenshot({path: imagePath, fullPage: true});
 
-  // TODO: Check if it successes
-  await upload(imageName, imagePath);
-  const hoge = await getUrl(imageName);
-  console.log(hoge);
-  console.log(hoge.Body.toString('base64'));
-  // const imageUrl = await buildUrl(imageName);
   await page.close();
-  return hoge.Body.toString('base64');
+  return imageName;
 };
