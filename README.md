@@ -18,7 +18,7 @@ Caution: Your screenshots will be uploaded to our public S3 bucket (sshot-images
 Available options in query parameter are:
 
 |name|value|
-|-:|-:|
+|-:|:-|
 |url|string (e.g. https://github.com)|
 |base64|boolean (true/false)|
 
@@ -30,6 +30,27 @@ Available options in query parameter are:
 5. Fill config.json
 6. Set environment variables (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `REGION`) to run serverless
 7. Run `yarn run deploy`
+
+Actual steps are:
+
+```sh
+$ git clone https://github.com/asmsuechan/sshot.git
+$ cd sshot
+$ yarn
+$ yarn add global serverless
+$ vim config.json
+$ cat config.json
+{
+  "AWS_ACCESS_KEY_ID": "your key",
+  "AWS_SECRET_ACCESS_KEY": "your key",
+  "REGION": "your region",
+  "BUCKET_NAME": "your bucket name"
+}
+$ export AWS_ACCESS_KEY_ID=xxxxxxxx
+$ export AWS_SECRET_ACCESS_KEY=xxxxxxxxx
+$ export REGION=ap-northeast-1
+$ yarn run deploy
+```
 
 Any questions? Open an issue and ask us, please.
 
