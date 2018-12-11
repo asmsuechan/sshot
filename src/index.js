@@ -1,6 +1,6 @@
 const setup = require('./starter-kit/setup');
 const exec = require('child_process').exec;
-const {upload} = require('./s3');
+const {upload, getUrl} = require('./s3');
 // const baseUrl = 'https://s3-ap-northeast-1.amazonaws.com/sshot-assets/';
 
 exports.handler = async (event, context, callback) => {
