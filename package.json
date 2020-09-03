@@ -13,7 +13,7 @@
     "deploy": "serverless deploy --region $REGION"
   },
   "dependencies": {
-    "puppeteer": "^1.1.1",
+    "puppeteer": "^1.13.0",
     "tar": "^4.0.1"
   },
   "devDependencies": {
